@@ -41,5 +41,17 @@ This project was performed in a **pre-configured virtual lab** simulating Alpha 
 ---
 
 ## 📂 Project Structure
+... (your folder layout)
+
+---
+
+## 📖 Full Project Walkthrough
+
+For a detailed step-by-step breakdown of how I conducted this investigation, including all commands used and analysis techniques:
+
+👉 [View the full project walkthrough](walkthrough.md)
+
+
+
 
 
