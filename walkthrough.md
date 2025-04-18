@@ -1,9 +1,11 @@
 # 🛍️ Project Walkthrough
+
 ## *Threat Hunting at Scale with PowerShell Remoting*
 
 ---
 
 ## 🔹 **Step 1: Launch Remote Servers**
+
 Run the pre-configured lab setup script to simulate three remote Windows Server containers.
 
 ```powershell
@@ -16,13 +18,17 @@ Run the pre-configured lab setup script to simulate three remote Windows Server 
 
 ## 🔹 **Step 2: Load Server List and Credentials**
 
+The lab provided a pre-configured file containing the names of the target systems. This list was stored in a specified directory within the lab environment.
+
 ```powershell
-[string[]]$AlphaServers = Get-Content -Path 'C:\sec401\labs\5.4\alpha-servers.txt'
+[string[]]$AlphaServers = Get-Content -Path 'C:\LabResources\server-list.txt'
 $creds = Get-Credential
 ```
 
-- `$AlphaServers`: Stores the list of remote systems
-- `$creds`: Prompts for and stores secure credentials used for remoting
+- `$AlphaServers`: Loads hostnames of the remote systems into an array
+- `$creds`: Prompts for secure admin credentials for remote access
+
+> 🗒️ Note: The path and file were pre-configured as part of the lab training environment.
 
 ---
 
@@ -40,33 +46,40 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 
 ## 🔹 **Step 4: Search for Malicious Executables**
 
+During the investigation, a suspicious file named `broker.exe` was found on only one system. Other systems contained a similar file named `proxy.exe`.
+
+- `broker.exe` was located at:
+  `C:\Windows\broker.exe` on `alpha-svr3.local`, observed during an interactive PowerShell Remoting session:
+
+  ```
+  [alpha-svr3.local]: PS C:\Users\Analyst\Documents>
+  ```
+
+- `proxy.exe` was located at:
+  `C:\Windows\System32\proxy.exe`, discovered via scanning script executed from:
+
+  ```
+  PS C:\LabEnv\Scripts>
+  ```
+
 ```powershell
 Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
     Get-ChildItem C:\Windows\*.exe
 } | Format-Table
 ```
 
-- Found `broker.exe` **only on `alpha-svr3.local`**
-- On other systems, found a file named `proxy.exe`
-
 ---
 
 ## 🔹 **Step 5: Compare File Hashes**
 
-Enter interactive session on `alpha-svr3.local`:
-
-```powershell
-Enter-PsSession -Authentication Basic -Credential $creds -ComputerName alpha-svr3.local
-```
-
-Then run:
+After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
 
 ```powershell
 Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
-Get-FileHash C:\Windows\proxy.exe -Algorithm SHA256
+Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 ```
 
-✔️ *Hashes matched → confirmed same file with different names*
+✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
 
 ---
 
@@ -98,12 +111,12 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 
 ## 🏁 Final Findings
 
-| IOC | Host(s) Affected | Notes |
-|-----|------------------|-------|
-| `broker.exe` | alpha-svr3 | Found only here |
-| `proxy.exe` | alpha-svr1, alpha-svr2 | Same hash as `broker.exe` |
-| `Adninistrator` account | alpha-svr3, alpha-svr1 | Likely attacker backdoor |
-| New service events (7045) | All hosts | Reviewed for persistence |
+| IOC                       | Host(s) Affected       | Notes                                                                |
+|---------------------------|------------------------|----------------------------------------------------------------------|
+| `broker.exe`              | alpha-svr3             | Found only here at C:\Windows\broker.exe                             |
+| `proxy.exe`               | alpha-svr1, alpha-svr2 | Same hash as `broker.exe`, located at C:\Windows\System32\proxy.exe  |
+| `Adninistrator` account   | alpha-svr3, alpha-svr1 | Likely attacker backdoor                                             |
+| New service events (7045) | All hosts              | Reviewed for persistence                                             |
 
 ---
 
