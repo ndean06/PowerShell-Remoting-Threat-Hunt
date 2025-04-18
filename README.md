@@ -14,7 +14,7 @@ This project simulates an enterprise-level threat hunting and incident response 
 
 ---
 
-## 🧪 Lab Environment (Summary)
+## 🧪 Lab Environment Summary
 
 This project was performed in a **pre-configured virtual lab** simulating Alpha Inc.'s infrastructure.
 
