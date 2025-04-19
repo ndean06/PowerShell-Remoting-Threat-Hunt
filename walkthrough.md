@@ -11,9 +11,8 @@ Run the pre-configured lab setup script to simulate three remote Windows Server 
 ```powershell
 .\start-servers.ps1
 ```
-
+![Start Server Containers](screenshots/Screenshot_start-server-containers.png)
 > 💡 *This script starts alpha-svr1, alpha-svr2, and alpha-svr3.*
-
 ---
 
 ## 🔹 **Step 2: Load Server List and Credentials**
