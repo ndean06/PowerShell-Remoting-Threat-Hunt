@@ -27,7 +27,7 @@ $creds = Get-Credential
 
 - `$AlphaServers`: Loads hostnames of the remote systems into an array
 - `$creds`: Prompts for secure admin credentials for remote access
-
+![Start Server Containers](screenshots/server-names-variable.png)
 > 🗒️ Note: The path and file were pre-configured as part of the lab training environment.
 
 ---
