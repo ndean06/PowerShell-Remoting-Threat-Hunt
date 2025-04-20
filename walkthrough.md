@@ -77,6 +77,22 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 ![Search for Malicious Executables broker.exe](screenshots/broker-executable.png)
 ---
 
+## 🔹 **Step 6: Start an Interactive Remote Session on the Suspicious Server**
+
+To investigate broker.exe more closely, we initiate a live session with the compromised host using Enter-PSSession.
+
+```powershell
+Enter-PSSession -Authentication Basic -Credential $creds -ComputerName alpha-svr3.local
+```
+This gives us direct, interactive access to alpha-svr3.local, indicated by a prompt like:
+```powershell
+[alpha-svr3.local]: PS C:\Users\Analyst\Documents>
+```
+
+✔️ *This allows for deeper inspection of files and system configuration.*
+
+---
+
 ## 🔹 **Step 6: Compare File Hashes**
 
 After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
@@ -85,7 +101,6 @@ After identifying both files, their hashes were compared using `Get-FileHash` to
 Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
 Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 ```
-
 ✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
 
 ---
