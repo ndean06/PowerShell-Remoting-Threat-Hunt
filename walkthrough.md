@@ -58,17 +58,15 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 During the investigation, a suspicious file named `broker.exe` was found on only one system. Other systems contained a similar file named `proxy.exe`.
 
 - `broker.exe` was located at:
-  `C:\Windows\broker.exe` on `alpha-svr3.local`, observed during an interactive PowerShell Remoting session:
-
+  `C:\Windows\broker.exe` on `alpha-svr3.local`, discovered via scanning script executed from:
+  ```
+  PS C:\LabEnv\Scripts> 
+  ```
+  
+- `proxy.exe` was located at:
+  `C:\Windows\System32\proxy.exe`, observed during an interactive PowerShell Remoting session:
   ```
   [alpha-svr3.local]: PS C:\Users\Analyst\Documents>
-  ```
-
-- `proxy.exe` was located at:
-  `C:\Windows\System32\proxy.exe`, discovered via scanning script executed from:
-
-  ```
-  PS C:\LabEnv\Scripts>
   ```
 
 ```powershell
@@ -76,7 +74,7 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
     Get-ChildItem C:\Windows\*.exe
 } | Format-Table
 ```
-
+![Search for Malicious Executables broker.exe](screenshots/broker.png)
 ---
 
 ## 🔹 **Step 6: Compare File Hashes**
