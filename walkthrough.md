@@ -88,8 +88,8 @@ This gives us direct, interactive access to alpha-svr3.local, indicated by a pro
 ```powershell
 [alpha-svr3.local]: PS C:\Users\Analyst\Documents>
 ```
-
-✔️ *This allows for deeper inspection of files and system configuration.*
+![Connect to Remote Server ](screenshots/remote-host-connect.png)
+>✔️ *This allows for deeper inspection of files and system configuration. Notice new command prompt.*
 
 ---
 
