@@ -74,7 +74,7 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
     Get-ChildItem C:\Windows\*.exe
 } | Format-Table
 ```
-![Search for Malicious Executables broker.exe](screenshots/broker.png)
+![Search for Malicious Executables broker.exe](screenshots/broker-executable.png)
 ---
 
 ## 🔹 **Step 6: Compare File Hashes**
