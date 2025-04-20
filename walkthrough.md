@@ -12,7 +12,7 @@ Run the pre-configured lab setup script to simulate three remote Windows Server 
 .\start-servers.ps1
 ```
 ![Start Server Containers](screenshots/start-server-containers.png)
-> 💡 *This script starts alpha-svr1, alpha-svr2, and alpha-svr3.*
+>💡 *This script starts alpha-svr1, alpha-svr2, and alpha-svr3.*
 
 ---
 
@@ -24,9 +24,9 @@ The lab provided a pre-configured file containing the names of the target system
 [string[]]$AlphaServers = Get-Content -Path 'C:\LabResources\server-list.txt'
 ```
 
-- `$AlphaServers`: Loads hostnames of the remote systems into an array
+ `$AlphaServers`: Loads hostnames of the remote systems into an array
 ![Start Server Containers](screenshots/server-names-variable.png)
-> 🗒️ Note: The path and file were pre-configured as part of the lab training environment.
+>🗒️ Note: The path and file were pre-configured as part of the lab training environment.
 
 ---
 
@@ -36,9 +36,9 @@ The lab provided a pre-configured file containing the names of the target system
 $creds = Get-Credential
 ```
 
-- `$creds`: Prompts for secure admin credentials for remote access
-  
-🌟 *This verifies connectivity and gathers basic OS info.*
+ `$creds`: Prompts for secure admin credentials for remote access
+![Start Server Containers](screenshots/get-admin-creds.png)  
+>🔐 This step ensures credentials are handled securely through PowerShell's built-in credential object.*
 
 ---
 ## 🔹 **Step 4: Get OS Info Remotely**
