@@ -25,7 +25,7 @@ The lab provided a pre-configured file containing the names of the target system
 ```
 
  `$AlphaServers`: Loads hostnames of the remote systems into an array
-![Start Server Containers](screenshots/server-names-variable.png)
+![Loaded Server List](screenshots/server-names-variable.png)
 >🗒️ Note: The path and file were pre-configured as part of the lab training environment.
 
 ---
@@ -37,7 +37,7 @@ $creds = Get-Credential
 ```
 
  `$creds`: Prompts for secure admin credentials for remote access
-![Start Server Containers](screenshots/get-admin-creds.png)  
+![Get Admin Credentials](screenshots/get-admin-creds.png)  
 >🔐 This step ensures credentials are handled securely through PowerShell's built-in credential object.*
 
 ---
@@ -48,8 +48,8 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
     Get-CimInstance Win32_OperatingSystem | Select-Object CSName, Caption
 } | Format-Table
 ```
-
-🌟 *This verifies connectivity and gathers basic OS info.*
+![Get Remote OS Info](screenshots/get-remote-OS-info.png)
+>🌟 *This verifies connectivity and gathers basic OS info.*
 
 ---
 
