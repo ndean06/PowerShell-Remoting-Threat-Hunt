@@ -43,8 +43,19 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 🌟 *This verifies connectivity and gathers basic OS info.*
 
 ---
+## 🔹 **Step 4: Get OS Info Remotely**
 
-## 🔹 **Step 4: Search for Malicious Executables**
+```powershell
+Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
+    Get-CimInstance Win32_OperatingSystem | Select-Object CSName, Caption
+} | Format-Table
+```
+
+🌟 *This verifies connectivity and gathers basic OS info.*
+
+---
+
+## 🔹 **Step 5: Search for Malicious Executables**
 
 During the investigation, a suspicious file named `broker.exe` was found on only one system. Other systems contained a similar file named `proxy.exe`.
 
@@ -70,7 +81,7 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 
 ---
 
-## 🔹 **Step 5: Compare File Hashes**
+## 🔹 **Step 6: Compare File Hashes**
 
 After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
 
@@ -83,7 +94,7 @@ Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 
 ---
 
-## 🔹 **Step 6: Check for Persistence – Admin Accounts**
+## 🔹 **Step 7: Check for Persistence – Admin Accounts**
 
 ```powershell
 Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
@@ -96,7 +107,7 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 
 ---
 
-## 🔹 **Step 7: Check for Persistence – New Services**
+## 🔹 **Step 8: Check for Persistence – New Services**
 
 ```powershell
 Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
