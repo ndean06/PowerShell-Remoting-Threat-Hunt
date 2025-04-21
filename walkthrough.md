@@ -74,7 +74,7 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
     Get-ChildItem C:\Windows\*.exe
 } | Format-Table
 ```
-![Search for Malicious Executables broker.exe](screenshots/broker-executable.png)
+![Search for Malicious Executables broker.exe](screenshots/broker-exe.png)
 ---
 
 ## 🔹 **Step 6: Start an Interactive Remote Session on the Suspicious Server**
