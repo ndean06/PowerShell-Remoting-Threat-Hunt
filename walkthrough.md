@@ -120,7 +120,7 @@ After identifying both files, their hashes were compared using `Get-FileHash` to
 ```powershell
 Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
 ```
-![Get Hash for proxy.exe](screenshots/Event-ID-7045.png)
+![Get Hash for proxy.exe](screenshots/proxy-exe-hash.png)
 >✔️This hash can now be used to compare with other systems or submit to a threat intelligence platform like VirusTotal.*
 
 ---
