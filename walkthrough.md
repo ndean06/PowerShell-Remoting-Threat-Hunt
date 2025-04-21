@@ -75,6 +75,10 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 } | Format-Table
 ```
 ![Search for Malicious Executables broker.exe](screenshots/broker-exe.png)
+>🕵️ *Why is broker.exe seen as suspicious:
+> - NOT Present on the other hosts: Only alpha-svr3.local had broker.exe.
+> - File Size: broker.exe is a very large file compared to other files on the servers.
+> - Unusal File Placement: broker.exe is located directly in C:\Windows\, a location typically for system files like explorer.exe  
 ---
 
 ## 🔹 **Step 6: Start an Interactive Remote Session on the Suspicious Server**
