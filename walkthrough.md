@@ -106,11 +106,26 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
     Get-WinEvent -FilterHashtable @{LogName='System'; ID=7045} -MaxEvents 3
 } | Format-List
 ```
-![Connect to Remote Server ](screenshots/remote-host-connect.png)
->🕵️ *This helps uncover stealthy persistence mechanisms often used by threat actors*
+>*This helps uncover stealthy persistence mechanisms often used by threat actors*
+
+![Search for Recently Installed Services](screenshots/Event-ID-7045.png)
+>🕵️ Only one new service was recently added to the system, C:\Windows\broker.exe.
 
 ---
-## 🔹 **Step 6: Compare File Hashes**
+
+## 🔹 **Step 8: Get Hash of Suspicious File**
+
+After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
+
+```powershell
+Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
+```
+![Get Hash for proxy.exe](screenshots/Event-ID-7045.png)
+>✔️This hash can now be used to compare with other systems or submit to a threat intelligence platform like VirusTotal.*
+
+---
+
+## 🔹 **Step 8: Get Hash of Suspicious File**
 
 After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
 
@@ -121,7 +136,6 @@ Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 ✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
 
 ---
-
 ## 🔹 **Step 7: Check for Persistence – Admin Accounts**
 
 ```powershell
