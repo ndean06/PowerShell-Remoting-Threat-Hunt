@@ -97,6 +97,19 @@ This gives us direct, interactive access to alpha-svr3.local, indicated by a pro
 
 ---
 
+## 🔹 **Step 7: Check for Recently Installed Services (Event ID 7045)**
+
+To identify signs of persistence, we checked for recently installed Windows services. Event ID 7045 in the System log records new service installations. We limited the search to the last few events for readability.
+
+```powershell
+Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
+    Get-WinEvent -FilterHashtable @{LogName='System'; ID=7045} -MaxEvents 3
+} | Format-List
+```
+![Connect to Remote Server ](screenshots/remote-host-connect.png)
+>🕵️ *This helps uncover stealthy persistence mechanisms often used by threat actors*
+
+---
 ## 🔹 **Step 6: Compare File Hashes**
 
 After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
