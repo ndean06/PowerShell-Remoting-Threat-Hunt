@@ -125,12 +125,11 @@ Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
 
 ---
 
-## 🔹 **Step 8: Get Hash of Suspicious File**
+## 🔹 **Step 9: Compare File Hashes**
 
-After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
+After identifying both files and exiting alpha-svr3.local, their hashes were compared using `Get-FileHash` to determine if they were identical.
 
 ```powershell
-Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
 Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 ```
 ✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
