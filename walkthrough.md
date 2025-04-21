@@ -132,7 +132,8 @@ After identifying both files and exiting alpha-svr3.local, their hashes were com
 ```powershell
 Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 ```
-✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
+![Compare Hashes](screenshots/compar-hashes.PNG)
+>✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
 
 ---
 ## 🔹 **Step 7: Check for Persistence – Admin Accounts**
