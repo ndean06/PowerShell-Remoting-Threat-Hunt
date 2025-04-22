@@ -55,19 +55,27 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 
 ## 🔹 **Step 5: Search for Malicious Executables**
 
-During the investigation, a suspicious file named `broker.exe` was found on only one system. Other systems contained a similar file named `proxy.exe`.
+We're concerned that the attacker may be using the same malware discovered in earlier labs. Let's look for the `proxy.exe` malware in the location found during a previous investigation. 
 
-- `broker.exe` was located at:
-  `C:\Windows\broker.exe` on `alpha-svr3.local`, discovered via scanning script executed from:
-  ```
-  PS C:\LabEnv\Scripts> 
-  ```
-  
-- `proxy.exe` was located at:
-  `C:\Windows\System32\proxy.exe`, observed during an interactive PowerShell Remoting session:
-  ```
-  [alpha-svr3.local]: PS C:\Users\Analyst\Documents>
-  ```
+NOTE: Process is present in Windows VM under:
+
+`C:\Windows\System32\proxy.exe`
+
+We first searched for the file directly in that location using:
+
+```powershell
+"Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
+    Get-ChildItem C:\Windows\proxy.exe
+} | Format-Table"
+```
+When that returned no results, we expanded the search slightly:
+
+```powershell
+Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
+    Get-ChildItem C:\Windows\proxy.exe
+} | Format-Table
+```
+Still receiving no output, we finally listed all .exe files in the C:\Windows directory to identify anything suspicious 
 
 ```powershell
 Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
@@ -75,10 +83,13 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 } | Format-Table
 ```
 ![Search for Malicious Executables broker.exe](screenshots/broker-exe.png)
->🕵️ *Why is broker.exe seen as suspicious:
+> *Leading to the discovery of the suspicious executable `broker.exe:`*
+
+Why is broker.exe seen as suspicious:
 > - NOT Present on the other hosts: Only alpha-svr3.local had broker.exe.
 > - File Size: broker.exe is a very large file compared to other files on the servers.
-> - Unusal File Placement: broker.exe is located directly in C:\Windows\, a location typically for system files like explorer.exe  
+> - Unusal File Placement: broker.exe is located directly in C:\Windows\, a location typically for system files like explorer.exe
+
 ---
 
 ## 🔹 **Step 6: Start an Interactive Remote Session on the Suspicious Server**
@@ -113,7 +124,7 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 
 ---
 
-## 🔹 **Step 8: Get Hash of Suspicious File**
+## 🔹 **Step 8: Get the Hash of Suspicious File**
 
 After identifying the suspicious file, determine it's hash by using `Get-FileHash`.
 
@@ -125,9 +136,17 @@ Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
 
 ---
 
-## 🔹 **Step 9: Compare File Hashes**
+## 🔹 **Step 9: Exit Remote Session** 
 
-After identifying both files and exiting alpha-svr3.local, their hashes were compared using `Get-FileHash` to determine if they were identical.
+```powershell
+Exit-PSSession
+```
+
+---
+
+## 🔹 **Step 10: Compare File Hashes** 
+
+After identifying both files (proxy.exe & broker.exe), get the hash of `proxy.exe` using `Get-FileHash` to compare hash values.
 
 ```powershell
 Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
@@ -136,7 +155,8 @@ Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 >✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
 
 ---
-## 🔹 **Step 7: Check for Persistence – Admin Accounts**
+
+## 🔹 **Step 11: Check for Persistence – Admin Accounts**
 
 ```powershell
 Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
