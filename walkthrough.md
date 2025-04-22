@@ -115,7 +115,7 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 
 ## 🔹 **Step 8: Get Hash of Suspicious File**
 
-After identifying both files, their hashes were compared using `Get-FileHash` to determine if they were identical.
+After identifying the suspicious file, determine it's hash by using `Get-FileHash`.
 
 ```powershell
 Get-FileHash C:\Windows\broker.exe -Algorithm SHA256
