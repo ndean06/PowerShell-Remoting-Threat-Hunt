@@ -151,7 +151,7 @@ After identifying both files (proxy.exe & broker.exe), get the hash of `proxy.ex
 ```powershell
 Get-FileHash C:\Windows\System32\proxy.exe -Algorithm SHA256
 ```
-![Compare Hashes](screenshots/compar-hashes.PNG)
+![Compare Hashes](screenshots/compare-hashes.png)
 >✔️ *Result: The SHA256 hashes matched, confirming both files are identical despite being named and placed differently—a tactic often used by threat actors to evade detection.*
 
 ---
@@ -163,22 +163,9 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
     Get-LocalGroupMember -Group "Administrators"
 } | Format-Table
 ```
-
-- Detected suspicious account: `Adninistrator` (misspelled)
-- Present on both `alpha-svr3` and `alpha-svr1`
-
----
-
-## 🔹 **Step 8: Check for Persistence – New Services**
-
-```powershell
-Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServers -Command {
-    Get-WinEvent -FilterHashtable @{LogName='System'; ID=7045} -MaxEvents 3
-} | Format-List
-```
-
-- Event ID 7045 = *New service installed*
-- Helps detect stealthy persistence methods used by APT groups
+![Compare Hashes](screenshots/get-groupmember.png)
+- *Detected suspicious account: `Adninistrator`(misspelled)*
+- *Present on both `alpha-svr3` and `alpha-svr1`*
 
 ---
 
