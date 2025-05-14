@@ -189,4 +189,4 @@ Invoke-Command -Authentication Basic -Credential $creds -ComputerName $AlphaServ
 - Persistence detection via account and service review
 - Scalable incident response
 
-Add full project walkthrough
+
